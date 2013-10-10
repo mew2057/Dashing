@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <!-- This is guaranteed to work in the latest version of chrome and should work in Firefox, no promises on ie -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="author"             content="John F. Dunham" />
+    <title>
+         Circles - Welcome to The Grid.
+    </title>  
+
+    <script type="text/javascript" src="jquery-1.8.1.min.js"></script> 
+	<script type="text/javascript" src="maps/protoMap1.json"></script> 
+	<script type="text/javascript" src="maps/protoMap2.json"></script> 
+	<script type="text/javascript" src="maps/protoMap3.json"></script> 
+	<script type="text/javascript" src="maps/protoMap4.json"></script>
+	<script type="text/javascript" src="maps/finalMap.json"></script>
+
+	<script type="text/javascript" src="collisions.js"></script>
+	<script type="text/javascript" src="map.js"></script> 
+    <script type="text/javascript" src="circle.js"></script>         
+	<script type="text/javascript" src="circleGame.js"></script> 
+	        
+	<script type = "text/javascript">
+        function updateGameOptions ()
+        {
+            var map = document.getElementById("sMap");
+            
+            CircleGame.Game.reset(
+				CircleGame.Game.baseCircleCount,
+                CircleGame.Game.playerCount,
+				parseInt(map.options[map.options.selectedIndex].value));
+        }
+    </script>
+	
+</head>
+<body onload="CircleGame.init(2,2,0)" style="background:white;">
+
+
+<p style="color:black; float:left">
+	BLUE:
+	&nbsp&nbsp&nbspMovement: WASD
+	&nbsp&nbsp&nbspDash: R	
+	&nbsp&nbsp&nbspShield: T 
+	&nbsp&nbsp&nbspAttack: Y 
+	<br/>
+    RED:
+	&nbsp&nbsp&nbspMovement: Arrow Keys
+	&nbsp&nbsp&nbspDash: ,	
+	&nbsp&nbsp&nbspShield: . 
+	&nbsp&nbsp&nbspAttack: / 
+	<br/>
+	<br/>
+	
+	Try dashing into the green surfaces!<br/>
+	Try bouncing with different key combos!<br/>
+	Attacks can cancel a dash without pentalty!<br/>
+	<br/>
+
+	<select id = "sMap" >
+		<option value = 1 >Map 1</option>
+		<option value = 2 >Map 2</option>
+		<option value = 3 >Map 3</option>
+		<option value = 4 >Map 4</option>
+		<option value = 0 selected >Final Map</option>
+
+
+	</select>
+
+	<input type="button" value="Set Map" onclick="updateGameOptions();" />
+</p>
+
+
+
+</body>
+</html>
