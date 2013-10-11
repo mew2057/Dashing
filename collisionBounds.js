@@ -30,17 +30,70 @@ function containsPoint(x,y)
 
 function intersectsAABB(other)
 {
-	if(other.max[0] < this.min[0] || other.min[0] > this.max[0])
-		return false;
-	else if(other.max[1] < this.min[1] || other.min[1] > this.max[1])
-		return false;
-	
-	return true;
+	return (other.max[0] < this.min[0] || other.min[0] > this.max[0] || 
+		other.max[1] < this.min[1] || other.min[1] > this.max[1]);
 }
 
 //*********************************
 
 //************Circle***************
+
+//*********************************
+
+//*********SweepAndPrune***********
+
+/**
+ * A sweep and prune implementation for collision detection.
+ *
+ * @param arguments Arrays containing objects which have an AABB defined as AABB.
+ */
+function SweepAndPrune()
+{
+	var axisList = [], activeList = [], overlaps = [];
+	
+	// Sweep
+	// O(n)
+	for(var index in arguments)
+		for(var object in arguments[index])
+		{
+			axisList.push(arguments[index][object]);
+		}
+	
+	// O(n log(n))
+	axisList.sort(SweepAndPrune.compare);
+	
+	// Prune
+	for(index = 0; index < axisList.length; index++)
+	{		
+		for(object = 0; object < activeList.length; object++)
+		{
+			if(axisList[index].min.x > activeList[object].max.x)
+			{
+				activeList.splice(object--, 1);
+			}
+			else
+			{
+				overlaps.push([activeList[object], axisList[index]);
+			}
+		}
+		
+		activeList.push(axisList[index]);		
+	}
+	
+	return overlaps;
+}
+SweepAndPrune.hashTable = {};
+/**
+ * Provides the compare function for the Sweep and Prune sort in JavaScript.
+ * Assumes that the objects have an AABB property called AABB.
+ *
+ *	@param objectA A collision object with a AABB object.
+ *	@param objectB A collision object with a AABB object.
+ */
+SweepAndPrune.compare = function(objectA, objectB)
+{
+	return objectA.AABB.min.x - objectB.AABB.min.x
+}
 
 //*********************************
 
