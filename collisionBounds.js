@@ -54,11 +54,12 @@ function SweepAndPrune()
 	// Sweep
 	// O(n)
 	for(var index in arguments)
+	{
 		for(var object in arguments[index])
 		{
 			axisList.push(arguments[index][object]);
 		}
-	
+	}
 	// O(n log(n))
 	axisList.sort(SweepAndPrune.compare);
 	
@@ -69,11 +70,12 @@ function SweepAndPrune()
 		{
 			if(axisList[index].min.x > activeList[object].max.x)
 			{
-				activeList.splice(object--, 1);
+				activeList.splice(object, 1);
+				object--;
 			}
 			else
 			{
-				overlaps.push([activeList[object], axisList[index]);
+				overlaps.push([activeList[object], axisList[index]]);
 			}
 		}
 		
@@ -82,7 +84,7 @@ function SweepAndPrune()
 	
 	return overlaps;
 }
-SweepAndPrune.hashTable = {};
+
 /**
  * Provides the compare function for the Sweep and Prune sort in JavaScript.
  * Assumes that the objects have an AABB property called AABB.
