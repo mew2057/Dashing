@@ -53,7 +53,7 @@ CollisionArea.prototype = {
 	checkCollisions : function()
 	{	
 		var reactionDetails;
-
+				
 		for(var entity in this.entityObjects)
 		{
 			// Check against the other dynamic objects.

@@ -1,7 +1,7 @@
 /* -------------
     collisionBounds.js
     Contains a set of functions to define collision boundaries.
-	Additionally contains an implementation of the quadtree.
+	Additionally contains an implementation of the quad tree.
     
 	@author John Dunham
 	@since  2013-10-09
@@ -15,6 +15,13 @@ function Point(x,y)
 }	
 //*********************************
 
+//************Vector***************
+function Vector(x,y)
+{
+	this.x = x;
+	this.y = y;
+}	
+//*********************************
 //************AABB*****************
 function AABB(x,y,w,h)
 {
@@ -22,23 +29,75 @@ function AABB(x,y,w,h)
 	this.max = [x + w, y + h];
 }
 
-function containsPoint(x,y)
+AABB.prototype = {
+	containsPoint : function(x,y)
+	{
+		return x < this.max[0] && x > this.min[0] && 
+			y < this.max[1] && y > this.min[1];
+	}
+
+	intersectsAABB : function(other)
+	{
+		return (other.max[0] < this.min[0] || other.min[0] > this.max[0] || 
+			other.max[1] < this.min[1] || other.min[1] > this.max[1]);
+	}
+
+	move : function(dX,dY)
+	{
+		this.min.x += dX;
+		this.min.y += dY;
+		this.max.x += dX;
+		this.max.y += dY;
+	}
+}
+//*********************************
+
+//*********CircleBounds************
+/**
+ * A narrow phase collision detection check.
+ */
+function CircleBound(x,y,r)
 {
-	return x < this.max[0] && x > this.min[0] && 
-		y < this.max[1] && y > this.min[1];
+	this.x = x;
+	this.y = y;
+	this.r = r;
 }
 
-function intersectsAABB(other)
-{
-	return (other.max[0] < this.min[0] || other.min[0] > this.max[0] || 
-		other.max[1] < this.min[1] || other.min[1] > this.max[1]);
+CircleBound.prototype = {
+	move : function(dX,dY)
+	{
+		this.x += dX;
+		this.y += dY;
+	}
 }
 
 //*********************************
 
-//************Circle***************
+function CollisionOps(){}
+CollisionOps.collides_AABB_Circle(bBox, bCircle)
+{
+	/*var distX = Math.abs(bCircle.x - bBox.min.x);
+	var distY = Math.abs(bCircle.y - collidable.cY);
+			
+	if(distX > collidable.w/2 + this.r || distY > collidable.h/2 + this.r)
+		return false
+	else if(distX <= collidable.w/2  || distY <= collidable.h/2 + this.r)
+		return true;
+	else
+		return ((distX - collidable.w/2) * (distX - collidable.w/2) + ((distY - collidable.h/2) * (distY - collidable.h/2))) <= (this.r * this.r);
+	}*/	
+}
 
-//*********************************
+CollisionOps.collides_AABB_Line(bBox, line)
+{
+	
+}
+
+CollisionOps.collides_Circle_Line(bCircle, line)
+{
+	
+}
+
 
 //*********SweepAndPrune***********
 
