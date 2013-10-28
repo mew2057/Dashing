@@ -36,10 +36,10 @@ AABB.prototype = {
 			y < this.max[1] && y > this.min[1];
 	}
 
-	intersectsAABB : function(other)
+	intersectsAABB : function(otherAABB)
 	{
-		return (other.max[0] < this.min[0] || other.min[0] > this.max[0] || 
-			other.max[1] < this.min[1] || other.min[1] > this.max[1]);
+		return (otherAABB.max[0] < this.min[0] || otherAABB.min[0] > this.max[0] || 
+			otherAABB.max[1] < this.min[1] || otherAABB.min[1] > this.max[1]);
 	}
 
 	move : function(dX,dY)
@@ -104,19 +104,19 @@ CollisionOps.collides_Circle_Line(bCircle, line)
 /**
  * A sweep and prune implementation for collision detection.
  *
- * @param arguments Arrays containing objects which have an AABB defined as AABB.
+ * @param collidables Arrays containing objects which have an AABB defined as AABB.
  */
-function SweepAndPrune()
+function SweepAndPrune(collidables)
 {
 	var axisList = [], activeList = [], overlaps = [];
 	
 	// Sweep
 	// O(n)
-	for(var index in arguments)
+	for(var index in collidables)
 	{
-		for(var object in arguments[index])
+		for(var object in collidables[index])
 		{
-			axisList.push(arguments[index][object]);
+			axisList.push(collidables[index][object]);
 		}
 	}
 	// O(n log(n))
@@ -148,12 +148,12 @@ function SweepAndPrune()
  * Provides the compare function for the Sweep and Prune sort in JavaScript.
  * Assumes that the objects have an AABB property called AABB.
  *
- *	@param objectA A collision object with a AABB object.
- *	@param objectB A collision object with a AABB object.
+ *	@param objectA A collision object with an AABB object.
+ *	@param objectB A collision object with an AABB object.
  */
 SweepAndPrune.compare = function(objectA, objectB)
 {
-	return objectA.AABB.min.x - objectB.AABB.min.x
+	return objectA.boxBound.min.x - objectB.boxBound.min.x
 }
 
 //*********************************

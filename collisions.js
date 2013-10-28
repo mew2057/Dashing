@@ -123,7 +123,7 @@ Collidable.prototype = {
 	 * Attaches a polyline collision space for the sake of collision detection and reaction.
 	 * 
 	 * @param verticies A pair of verticies defined as : [{x:<int>,y:<int>},{x:<int>,y:<int>}].
-     *	These verticies are defined in a space relative to the bounding box, NOT world coordinates.
+	 *	These verticies are defined in a space relative to the bounding box, NOT world coordinates.
 	 */
 	attachPolyline : function(verticies)
 	{
